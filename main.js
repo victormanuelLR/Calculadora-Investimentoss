@@ -1,7 +1,18 @@
 import { generateReturnsArray } from "./src/investmentGoals";
+import { Chart } from "chart.js/auto";
 
+const finalMoneyChartElement = document.getElementById(
+  "final-money-distribution"
+);
+const progressionChartElement = document.getElementById("progression");
 const form = document.getElementById("investment-form");
 // const calculateButtonElement = document.getElementById("calculate-results");
+let doughnutChartReference = {};
+let progressionChartReference = {};
+
+function formatCurrency(value) {
+  return value.toFixed(2);
+}
 
 function renderProgression(evt) {
   evt.preventDefault();
@@ -9,6 +20,8 @@ function renderProgression(evt) {
   if (document.querySelector(".error")) {
     return;
   }
+
+  resetCharts();
 
   //   const startingAmount = Number(formElement['startingAmount'])
 
@@ -28,7 +41,7 @@ function renderProgression(evt) {
     document.getElementById("tax-rate").value.replace(",", ".")
   );
 
-  const returnArray = generateReturnsArray(
+  const returnsArray = generateReturnsArray(
     startingAmount,
     timeAmount,
     timeAmountPeriod,
@@ -37,7 +50,67 @@ function renderProgression(evt) {
     returnRatePeriod
   );
 
-  console.log(returnArray);
+  const finalInvestmentObject = returnsArray[returnsArray.length - 1];
+
+  doughnutChartReference = new Chart(finalMoneyChartElement, {
+    type: "doughnut",
+    data: {
+      labels: ["Total investido", "Rendimento", "Imposto"],
+      datasets: [
+        {
+          data: [
+            formatCurrency(finalInvestmentObject.investedAmount),
+            formatCurrency(
+              finalInvestmentObject.totalInterestReturns * (1 - taxtRate / 100)
+            ),
+            formatCurrency(
+              finalInvestmentObject.totalInterestReturns * (taxtRate / 100)
+            ),
+          ],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  });
+
+  progressionChartReference = new Chart(progressionChartElement, {
+    type: "bar",
+    data: {
+      labels: returnsArray.map(investmentObject => investmentObject.month),
+      datasets: [
+        {
+          label: "Total Investido",
+          data: returnsArray.map(investmentObject =>
+            formatCurrency(investmentObject.investedAmount)
+          ),
+          backgroundColor: "rgb(255, 99, 132)",
+        },
+        {
+          label: "Retorno do Investimento",
+          data: returnsArray.map(investmentObject =>
+            formatCurrency(investmentObject.interestReturns)
+          ),
+          backgroundColor: "rgb(54, 162, 235)",
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+    },
+  });
 }
 
 function validateInput(evt) {
@@ -71,6 +144,20 @@ function validateInput(evt) {
   }
 }
 
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
+function resetCharts() {
+  if (
+    !isObjectEmpty(doughnutChartReference) &&
+    !isObjectEmpty(progressionChartReference)
+  ) {
+    doughnutChartReference.destroy();
+    progressionChartReference.destroy();
+  }
+}
+
 function resetFormErrors() {
   const errorInputsContainers = document.querySelectorAll(".error");
 
@@ -87,7 +174,9 @@ for (const formElement of form) {
 }
 
 form.addEventListener("submit", renderProgression);
-form.addEventListener("reset", resetFormErrors);
+form.addEventListener("reset", () => {
+  resetFormErrors(), resetCharts();
+});
 // calculateButtonElement.addEventListener("click", renderProgression)
 {
   /* <p class="text-red-500">Insira um valor numérico maior que zero!</p> */
