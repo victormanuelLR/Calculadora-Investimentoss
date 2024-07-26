@@ -39,6 +39,7 @@ function renderProgression(evt) {
 
   console.log(returnArray);
 }
+
 function validateInput(evt) {
   if (evt.target.value === "") {
     return;
