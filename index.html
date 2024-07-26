@@ -11,7 +11,7 @@
       <h1 class="text-2xl font-bold px-6">Calculadora de Investimentos</h1>
 
       <form class="w-full" id="investment-form">
-        <div class="flex w-full flex-col px-6 my-2">
+        <div class="flex w-full flex-col px-6 my-2 h-[4.25rem]">
           <label for="starting-amount" class="font-bold text-gray-700"
           >Investimento inicial</label>
 
@@ -31,7 +31,7 @@
         </div>
 
         <div
-          class="flex w-full flex-col px-6 my-2">
+          class="flex w-full flex-col px-6 my-2 h-[4.25rem]">
           <label for="aditional-contribution" class="font-bold text-gray-700"
           >Aportes iniciais</label>
 
@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <div class="flex w-full flex-col px-6 my-2">
+        <div class="flex w-full flex-col px-6 my-2 h-[4.25rem]">
           <label for="time-amount" class="font-bold text-gray-700">Prazo</label>
 
           <div class="flex">
@@ -68,7 +68,7 @@
           </div>
         </div>
 
-        <div class="flex w-full flex-col px-6 my-2">
+        <div class="flex w-full flex-col px-6 my-2 h-[4.25rem]">
           <label for="return-rate" class="font-bold text-gray-700">Rentabilidade</label>
 
           <div class="flex">
@@ -91,7 +91,7 @@
           </div>
         </div>
 
-        <div class="flex w-full flex-col px-6 my-2">
+        <div class="flex w-full flex-col px-6 my-2 h-[4.25rem]">
           <label for="tax-rate" class="font-bold text-gray-700">Impostos sobre lucro</label>
 
           <div class="flex">
@@ -119,6 +119,8 @@
         >Calcular</button>
         <button
         class="w-1/2 rounded-lg hover:bg-emerald-500 border-2 border-emerald-950"
+        type="reset"
+        form="investment-form"
         >Limpar</button>
       </div>
     </aside>
