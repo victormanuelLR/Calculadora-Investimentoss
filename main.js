@@ -173,7 +173,7 @@ for (const formElement of form) {
   }
 }
 
-form.addEventListener("submit", renderProgression);
+// form.addEventListener("submit", renderProgression);
 form.addEventListener("reset", () => {
   resetFormErrors(), resetCharts();
 });
