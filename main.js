@@ -7,6 +7,14 @@ const finalMoneyChartElement = document.getElementById(
 const progressionChartElement = document.getElementById("progression");
 const form = document.getElementById("investment-form");
 // const calculateButtonElement = document.getElementById("calculate-results");
+
+const columnsArray = [
+  { columnLabel: "Total investido", acessor: "investedAmount" },
+  { columnLabel: "Rendimento mensal", acessor: "interestReturns" },
+  { columnLabel: "Rendimento total", acessor: "totalInterestReturns" },
+  { columnLabel: "Mês", acessor: "Month" },
+  { columnLabel: "Quantia Total", acessor: "totalAmount" },
+];
 let doughnutChartReference = {};
 let progressionChartReference = {};
 
