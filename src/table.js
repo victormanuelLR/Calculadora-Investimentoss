@@ -1,7 +1,11 @@
 const isNonEmptyArray = arrayElement => {
   return Array.isArray(arrayElement) && arrayElement.length > 0;
 };
+const istheElementInsideIt = (supposedChildElement, supposedParentElement) => {
+  return Boolean(supposedParentElement.querySelector(supposedChildElement));
+};
 
+document.lastChild.re;
 export const createTable = (columnsArray, dataArray, tableId) => {
   if (
     !isNonEmptyArray(columnsArray) ||
@@ -34,6 +38,7 @@ function createTableHeader(tableReference, columnsArray) {
 
   const tableHeaderReference =
     tableReference.querySelector("thead") ?? createTheadElement(tableReference);
+
   const headerRow = document.createElement("tr");
 
   ["bg-blue-900", "text-slate-200", "sticky", "top-0"].forEach(cssClass =>
@@ -46,6 +51,9 @@ function createTableHeader(tableReference, columnsArray) {
     // headerRow.appendChild(headerElement) testar depois!!
 
     headerRow.innerHTML += headerElement;
+  }
+  if (istheElementInsideIt("tr", tableHeaderReference)) {
+    tableHeaderReference.removeChild(tableHeaderReference.querySelector("tr"));
   }
 
   tableHeaderReference.appendChild(headerRow);
@@ -61,7 +69,12 @@ function createTableBody(tableReference, tableItens, columnsArray) {
 
   const tableBodyReference =
     tableReference.querySelector("tbody") ?? createTbodyElement(tableReference);
-
+  const numberOfRowsInTheTable = tableBodyReference.children.length;
+  if (istheElementInsideIt("tr", tableBodyReference)) {
+    for (let tableRow = 0; tableRow < numberOfRowsInTheTable; tableRow++) {
+      tableBodyReference.lastChild.remove();
+    }
+  }
   for (const [itemIndex, tableItem] of tableItens.entries()) {
     const tableRow = document.createElement("tr");
 
